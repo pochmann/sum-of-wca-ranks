@@ -6,6 +6,7 @@ from time import time
 from zipfile import ZipFile
 from tkinter import *
 from tkinter.ttk import *
+from tkinter.messagebox import showinfo
 
 def update_tsv_export(reporthook=None):
     """If export is missing or not current, download the current one. Returns True iff the export was updated."""
@@ -70,7 +71,7 @@ def show():
         tree.insert('', 'end', values=row, tags=('', 'stripe')[i % 2])
 
 def export():
-    messagebox.showinfo(message='Not finished yet, sorry.')
+    showinfo(message='Not finished yet, sorry.')
     return
     rows = ranking_data()
     note = 'TODO'
@@ -129,7 +130,7 @@ def prepare_data():
             person_ranks[personId][eventIndex[eventId]] = rank
 
 def make_me_look_good():
-    messagebox.showinfo(message='Not implemented yet, sorry.')
+    showinfo(message='Not implemented yet, sorry.')
 
 update_tsv_export()
 prepare_data()
