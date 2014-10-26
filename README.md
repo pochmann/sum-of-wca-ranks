@@ -1,4 +1,4 @@
-sum-of-wca-ranks
+Sum of WCA Ranks
 ================
 
 Lets you choose the events for your own special sum of WCA ranks statistic. For example:
