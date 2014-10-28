@@ -67,23 +67,31 @@ def show():
     for x in tree.get_children():
         tree.delete(x)
     tree['displaycolumns'] = 'pos cuber sum ' + ' '.join(e for e, v in zip(eventIds, vars) if v.get())
-    for i, row in enumerate(ranking_data()):
+    global ranking_data_cache
+    ranking_data_cache = ranking_data()
+    for i, row in enumerate(ranking_data_cache):
         tree.insert('', 'end', values=row, tags=('', 'stripe')[i % 2])
 
 def export():
-    showinfo(message='Not finished yet, sorry.')
-    return
-    rows = ranking_data()
-    note = 'TODO'
-    out = '[SPOILER=Sum of Ranks ("' + 'TODO' + '")]' + note + '\n\n[TABLE="class:grid, align:right"]'
-    #out += '[TR][TD][B]' + '[/B][/TD][TD][B]'.join(n.split('[')[0] for n in column_names) + '[/B][/TD][/TR]'
-    def td(value):
-        #return '[TD' + '=align:left' * (type(value) is str) + ']' + str(value) + '[/TD]'
-        return '[TD' + '=align:left' * (type(value) is str) + ']{}[/TD]'.format(value)
-    out += '\n'.join('[TR]' + ''.join(td(value) for value in row) + '[/TR]'
-                     for row in rows)
-    out += '\n[/TABLE][/SPOILER]'
-    print(out)
+    eIds = [e for e, v in zip(eventIds, vars) if v.get()]
+    name = 'Sum of Ranks (' + ', '.join(eIds) + ')'
+    column_names = ['Pos', 'Cubers', 'Sum'] + [e.strip('A') + '\navg' if e.endswith('A') else e for e in eIds]
+    note = "Using data from [url=https://www.worldcubeassociation.org/results/misc/export.html]" + max(glob('WCA_export*_*.tsv.zip')) + "[/url]" + \
+           " and Stefan's [url=https://github.com/pochmann/sum-of-wca-ranks/]Sum of WCA Ranks tool[/url]."
+    out = '[SPOILER="' + name + '"]' + note + '\n\n[TABLE="class:grid,align:left"]\n' \
+          '[TR][TD][B]' + '[/B][/TD][TD][B]'.join(n.split('[')[0] for n in column_names) + '[/B][/TD][/TR]\n'
+    for row in ranking_data_cache:
+        out += '[TR][TD=align:right]{}[/TD][TD]{}[/TD][TD=align:right][B]{}[/B][/TD]'.format(*row[:3])
+        for var, value, default_rank in zip(vars, row[3:], default_ranks):
+            if var.get():
+                color = '00FF00' if value <= 10 else 'FF0000' if value == default_rank else None
+                value = '[COLOR="#{}"][B]{}[/B][/COLOR]'.format(color, value) if color else str(value)
+                out += '[TD=align:right]' + value + '[/TD]'
+        out += '[/TR]\n'
+    out += '[/TABLE][/SPOILER]'
+    root.clipboard_clear()
+    root.clipboard_append(out)
+    showinfo(message='Copied to clipboard, you can now paste it (ctrl-V) into your forum post.')
 
 def prepare_data():
     global eventIds, event_name, person_name, person_ranks, default_ranks, eventIdsA, eventIndex
