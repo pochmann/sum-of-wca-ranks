@@ -7,7 +7,7 @@ Lets you choose the events for your own special sum of WCA ranks statistic. Inst
 
 How to run this
 ---------------
-This tool is written in the programming language Python. You need Python to run it (similar to needing Java for running Java programs). If you have Linux or OS X, you might have Python already. If you don't have it or only have an old version, get [Python 3](https://www.python.org/downloads/) (if you don't know what you're doing, just get the installer and install with the default settings).
+This tool is written in the programming language Python. You need Python to run it (similar to needing Java for running Java programs). If you have Linux or OS X, you might have Python already. If you don't have it or only have an old version, get the newest [Python 3](https://www.python.org/downloads/) (if you don't know what you're doing, just get the installer and install with the default settings).
 
 Next click "Download ZIP" on the right of this page to download this tool, and unzip the zip-file on your computer.
 
